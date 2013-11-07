@@ -1,0 +1,25 @@
+{
+    "name": "uvicate/users",
+    "type": "library",
+    "description": "General Class User",
+    "keywords": ["users", "php", "mysql"],
+    "homepage": "https://github.com/uvicate/Users",
+    "require": {
+        "php": ">=5.3.0",
+        "lichtner/fluentpdo": "dev-master"
+        },
+    "license": "MIT",
+    "authors": [
+    	{
+    		"name": "Victor Quiroz",
+    		"email": "victorhqc@gmail.com",
+    		"homepage": "http://victorhqc.com",
+    		"role": "Developer"
+    	}
+    ],
+    "autoload": {
+        "psr-0": {
+            "uVicate": "src/"
+        }
+    }
+}

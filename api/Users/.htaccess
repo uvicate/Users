@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type}]
+RewriteRule ^([0-9]+)$ index.php?id=$1 [QSA,L]
+RewriteRule ^([0-9]+)/([a-z]+)$ index.php?$2=$1 [QSA,L]
