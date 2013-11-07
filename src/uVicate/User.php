@@ -2,11 +2,10 @@
 include_once __DIR__.'/Object.php';
 
 class User extends Object {
-	private $_error;
-	private $id;
-	private $username;
-	private $_password;
-	private $_supporteddata = array('all', 'basic', 'emails', 'password');
+	protected $id;
+	protected $username;
+	protected $_password;
+	protected $_supporteddata = array('all', 'basic', 'emails', 'password');
 	
 	public function __construct($data = null){
 		parent::__construct();
@@ -129,12 +128,12 @@ class User extends Object {
 		return $name;
 	}
 
-	public function login(){
-
+	protected function verify_password($password){
+		return password_verify($password, $hash);
 	}
 
-	public function logout(){
-
+	protected function encrypt_passwd($password){
+		return password_hash($password);
 	}
 
 	public function setData($toset){
@@ -149,16 +148,12 @@ class User extends Object {
 
 	}
 
-	public function activate(){
-
-	}
-
-	public function deactivate(){
-
-	}
-
 	public function getName(){
+		return $this->fetch_name();
+	}
 
+	public function getFullName(){
+		return $this->fetch_fullname();
 	}
 }
 
