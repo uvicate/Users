@@ -26,9 +26,7 @@ abstract class Object {
 	}
 	
 	public function __get($prop){
-		if(property_exists('Object', $prop)){
-			return $this->{$prop};
-		}		
+		return $this->{$prop};
 	}
 	
 	public function getData($hidden = false){
@@ -69,8 +67,8 @@ abstract class Object {
 		return $response;
 	}
 	
-	protected function newData($datos){
-		foreach ($datos as $key => $value) {
+	protected function newData($data){
+		foreach ($data as $key => $value) {
 			$this->{$key} = $value;
 		}
 	}
