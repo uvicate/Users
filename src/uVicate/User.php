@@ -1,5 +1,5 @@
-<?php
-require_once __DIR__.'/Object.php';
+<?php namespace uVicate;
+include_once __DIR__.'/Object.php';
 
 class User extends Object {
 	private $_error;

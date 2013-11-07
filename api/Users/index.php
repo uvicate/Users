@@ -1,9 +1,12 @@
 <?php
-$root = __DIR__.'/../../';
-$src = $root.'src/';
-require $src.'User.php';
 
-$user = new User();
+$root = __DIR__.'/../../';
+$src = $root.'src/uVicate/';
+include_once $src.'User.php';
+
+use uVicate;
+
+$user = new \uVicate\User;
 
 $method = $_SERVER['REQUEST_METHOD'];
 

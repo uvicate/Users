@@ -1,5 +1,6 @@
-<?php
-$r = __DIR__.'/../'; // root
+<?php namespace uVicate;
+
+$r = __DIR__.'/../../'; // root
 require_once $r.'configure.php';
 
 abstract class Object {
