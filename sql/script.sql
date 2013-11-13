@@ -12,3 +12,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `login` (
+  `idLogin` bigint(20) NOT NULL AUTO_INCREMENT,
+  `idUser` bigint(20) NOT NULL,
+  `date` datetime NOT NULL,
+  `expiracy` datetime NOT NULL,
+  `key` varchar(255) NOT NULL,
+  `ip` varchar(30) NULL,
+  `os` varchar(30) NULL,
+  `screen_resolution` varchar(30) NULL,
+  PRIMARY KEY (`idLogin`),
+  KEY `idUser` (`idUser`),
+  UNIQUE KEY `key` (`key`),
+  CONSTRAINT `login_idUser` FOREIGN KEY (`idUser`) REFERENCES `users` (`idUser`) ON DELETE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
