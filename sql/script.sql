@@ -18,12 +18,13 @@ CREATE TABLE IF NOT EXISTS `login` (
   `idUser` bigint(20) NOT NULL,
   `date` datetime NOT NULL,
   `expiracy` datetime NOT NULL,
-  `key` varchar(255) NOT NULL,
+  `keypass` varchar(255) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
   `ip` varchar(30) NULL,
   `os` varchar(30) NULL,
   `screen_resolution` varchar(30) NULL,
   PRIMARY KEY (`idLogin`),
   KEY `idUser` (`idUser`),
-  UNIQUE KEY `key` (`key`),
+  UNIQUE KEY `keypass` (`keypass`),
   CONSTRAINT `login_idUser` FOREIGN KEY (`idUser`) REFERENCES `users` (`idUser`) ON DELETE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

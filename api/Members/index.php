@@ -10,9 +10,10 @@ $member = new \uVicate\Member;
 $method = $_SERVER['REQUEST_METHOD'];
 $success = false;
 
+$response;
 switch($method){
 	case 'POST':
-		$member->login($_POST['username'], $_POST['password']);
+		$response = $member->login($_POST['username'], $_POST['password']);
 		$success = true;
 	break;
 	case 'DELETE':
@@ -26,5 +27,7 @@ switch($method){
 if($success === false){
 	header("HTTP/1.0 404 Not Found", TRUE, 404);
 }
+
+echo $response;
 
 ?>
