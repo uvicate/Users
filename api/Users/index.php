@@ -11,38 +11,16 @@ $user = new \uVicate\User;
 $method = $_SERVER['REQUEST_METHOD'];
 
 $success = false;
+$usr;
 switch($method){
 	case 'GET':
-		$validkeys = array(
-			'id' => '', 
-			'basic' => '', 
-			'name'=> '', 
-			'fullname' => '', 
-			'email' => '', 
-			'phone' => ''
-		);
 
-		//Get all information
-		//---------------------
-		foreach ($validkeys as $key => $value) {
-			if(array_key_exists($key, $_GET)){
-
-				$param = null;
-				if($key != 'id'){
-					$param = array($key);
-				}
-
-				$id = $_GET[$key];
-				$usr = $user->getby_id($id, $param);
-
-				$success = true;
-				break;
-			}
-		}		
 	break;
 	default:
 	break;
 }
+
+die(':)');
 
 if($success === false){
 	header("HTTP/1.0 404 Not Found", TRUE, 404);
