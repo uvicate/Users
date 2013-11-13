@@ -48,9 +48,15 @@ switch($method){
 		$arr = array('id' => $id);
 		parse_str(file_get_contents("php://input"), $PUT);
 		$user = new \uVicate\User($arr);
-		$user->edit($PUT);
+		$usr = $user->edit($PUT);
 
 		$success = true;
+	break;
+	case 'DELETE':
+		$id = $_GET['id'];
+		$arr = array('id' => $id);
+		$user = new \uVicate\User($arr);
+		$usr = $user->delete();
 	break;
 	default:
 	break;

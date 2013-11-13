@@ -212,7 +212,10 @@ class User extends Object {
 	}
 
 	public function delete(){
-
+		if($this->id != ''){
+			$query = $this->_fdb->deleteFrom('users')->where('idUser', $this->id);
+			return $query->execute();
+		}
 	}
 
 	public function getName(){
