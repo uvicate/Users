@@ -6,6 +6,7 @@ class User extends Object {
 	protected $username;
 	protected $_password;
 	protected $_supporteddata = array('all', 'basic', 'emails', 'password');
+	protected $_xmlnode = '<user/>';
 	
 	public function __construct($data = null){
 		parent::__construct();
@@ -55,12 +56,10 @@ class User extends Object {
 
 	private function fetchGeneric($query, $params = null){
 		$params = ($params == null) ? array('all') : $params;
-
 		$data = $query->fetch();
 		$d = $this->fetchPrivateData($data, $params);
 
 		$this->newData($d);
-
 		$d = $this->handleResponse($d);
 
 		return $d;
@@ -133,15 +132,77 @@ class User extends Object {
 	}
 
 	protected function encrypt_passwd($password){
-		return password_hash($password);
+		return password_hash($password, PASSWORD_DEFAULT);
 	}
 
-	public function setData($toset){
+	protected function supported_keys(){
+		$keys = array(
+			'username' => '',
+			'password' => '',
+			'name' => '',
+			'name2' => '',
+			'lastname' => '',
+			'lastname2' => ''
+		);
 
+		return $keys;
 	}
 
-	public function create(){
+	public function edit(array $new_data){
 
+		//If the received array has a parameter not listed in this array, it will be ignored.
+		$supported_data = $this->supported_keys();
+
+		$edit = false;
+		foreach ($new_data as $key => $value) {
+			if(array_key_exists($key, $supported_data)){
+
+				$value = utf8_decode($value);
+
+				if($key == 'password'){
+					$value = $this->encrypt_passwd($value);
+				}
+
+				$supported_data[$key] = $value;
+				$edit = true;
+			}
+		}
+
+		if($edit){
+			$query = $this->_fdb->iupdate('users')->set($supported_data)->where('idUser', $this->id);
+			$query = $this->_fdb->insertInto('users')->values($supported_data);
+			return $query->execute();
+		}
+
+		return false;
+	}
+
+	public function create(array $new_data){
+
+		//If the received array has a parameter not listed in this array, it will be ignored.
+		$supported_data = $this->supported_keys();
+
+		$create = false;
+		foreach ($new_data as $key => $value) {
+			if(array_key_exists($key, $supported_data)){
+
+				$value = utf8_decode($value);
+
+				if($key == 'password'){
+					$value = $this->encrypt_passwd($value);
+				}
+
+				$supported_data[$key] = $value;
+				$create = true;
+			}
+		}
+
+		if($create){
+			$query = $this->_fdb->insertInto('users')->values($supported_data);
+			return $query->execute();
+		}
+
+		return false;
 	}
 
 	public function delete(){

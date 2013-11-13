@@ -7,6 +7,7 @@ abstract class Object {
 
 	protected $_db;
 	protected $_fdb;
+	protected $_xmlnode = '<object/>';
 	protected $_err = array('err' => 'err-mainserver', 'success' => false);
 
 	public function __construct(){
@@ -52,7 +53,8 @@ abstract class Object {
 		$response;
 		switch ($content) {
 			case 'application/xml':
-				$xml = new SimpleXMLElement('<User/>');
+				/*$xml = new SimpleXMLElement("<?xml version=\"1.0\"?><object></object>");*/
+				$xml = new SimpleXMLElement($this->_xmlnode);
 				$data = array_flip($data);
 				array_walk_recursive($data, array ($xml, 'addChild'));
 				$response = $xml->asXML();
@@ -60,6 +62,7 @@ abstract class Object {
 			default:
 			case 'application/json':
 			case 'application/x-javascript':
+				header('application/json');
 				$response = json_encode($data);
 			break;
 		}
