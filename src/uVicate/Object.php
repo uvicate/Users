@@ -53,6 +53,7 @@ abstract class Object {
 		$response;
 		switch ($content) {
 			case 'application/xml':
+				header('Content-type: application/xml');
 				/*$xml = new SimpleXMLElement("<?xml version=\"1.0\"?><object></object>");*/
 				$xml = new SimpleXMLElement($this->_xmlnode);
 				$data = array_flip($data);
@@ -62,7 +63,7 @@ abstract class Object {
 			default:
 			case 'application/json':
 			case 'application/x-javascript':
-				header('application/json');
+				header('Content-type: application/json');
 				$response = json_encode($data);
 			break;
 		}
