@@ -1,0 +1,8 @@
+#ErrorDocument 404 /mix/index.php
+
+RewriteEngine on
+RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type}]
+
+RewriteRule ^()$ index.php [QSA,L]
+#RewriteRule ^([^/].+)/logout$ force_exit.php?email=$1 [QSA,L]
+#RewriteRule ^([^/].+)/forgot$ forgotten.php?email=$1 [QSA,L]

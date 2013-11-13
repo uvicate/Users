@@ -127,7 +127,7 @@ class User extends Object {
 		return $name;
 	}
 
-	protected function verify_password($password){
+	protected function verify_password($password, $hash){
 		return password_verify($password, $hash);
 	}
 

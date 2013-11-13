@@ -1,5 +1,6 @@
 <?php namespace uVicate;
 include_once __DIR__.'/Object.php';
+//include_once __DIR__.'/User.php';
 
 class Member extends User {
 
@@ -10,21 +11,21 @@ class Member extends User {
 	 * @return bool           true if the user is correct
 	 */
 	private function exists($username, $password){
-		$query = $this->_fdb->from('users')->select(null)->select('password')->where('username = ?' $username);
+		$query = $this->_fdb->from('users')->select(null)->select('password')->where('username = ?', $username);
 		$data = $query->fetch();
 		if(count($data) == 0){
 			return false;
 		}
 
 		$hash = $data['password'];
-		$verif2 = $this->verify_password($password);
+		$verif2 = $this->verify_password($password, $hash);
 
 		return $verif2;
 	}
 	
 	public function login($username, $password){
 
-		if($this->exists()){
+		if($this->exists($username, $password)){
 			$time = time() + ($GLOBALS['auth_time'] / 1000);
 			$passtime = time() + ($GLOBALS['pass_time'] / 1000);
 

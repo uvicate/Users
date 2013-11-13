@@ -1,0 +1,30 @@
+<?php
+$root = __DIR__.'/../../';
+$src = $root.'src/uVicate/';
+include_once $src.'Member.php';
+
+use uVicate;
+
+$member = new \uVicate\Member;
+
+$method = $_SERVER['REQUEST_METHOD'];
+$success = false;
+
+switch($method){
+	case 'POST':
+		$member->login($_POST['username'], $_POST['password']);
+		$success = true;
+	break;
+	case 'DELETE':
+		$member->logout();
+		$success = true;
+	break;
+	default:
+	break;
+}
+
+if($success === false){
+	header("HTTP/1.0 404 Not Found", TRUE, 404);
+}
+
+?>
