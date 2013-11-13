@@ -11,6 +11,7 @@ $user = new \uVicate\User;
 $method = $_SERVER['REQUEST_METHOD'];
 
 $success = false;
+
 switch($method){
 	case 'GET':
 		$validkeys = array(
@@ -39,6 +40,17 @@ switch($method){
 				break;
 			}
 		}				
+	break;
+	case 'PUT':
+		//Update information
+		//---------------------
+		$id = $_GET['id'];
+		$arr = array('id' => $id);
+		parse_str(file_get_contents("php://input"), $PUT);
+		$user = new \uVicate\User($arr);
+		$user->edit($PUT);
+
+		$success = true;
 	break;
 	default:
 	break;

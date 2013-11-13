@@ -12,6 +12,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $success = false;
 $usr;
+
 switch($method){
 	case 'POST':
 		$usr = $user->create($_POST);

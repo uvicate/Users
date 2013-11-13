@@ -20,8 +20,6 @@ switch($method){
 	break;
 }
 
-die(':)');
-
 if($success === false){
 	header("HTTP/1.0 404 Not Found", TRUE, 404);
 	//$usr = "<p>Sorry, this method is not available, please read the manuals of this API</p>";

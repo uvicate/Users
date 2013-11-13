@@ -137,25 +137,31 @@ class User extends Object {
 
 	protected function supported_keys(){
 		$keys = array(
-			'username' => '',
-			'password' => '',
-			'name' => '',
-			'name2' => '',
-			'lastname' => '',
-			'lastname2' => ''
+			'username' => true,
+			'password' => true,
+			'email' => true,
+			'name' => true,
+			'name2' => false,
+			'lastname' => true,
+			'lastname2' => false
 		);
 
 		return $keys;
 	}
 
-	public function edit(array $new_data){
-
+	private function genericEdit(array $new_data, $create = false){
 		//If the received array has a parameter not listed in this array, it will be ignored.
 		$supported_data = $this->supported_keys();
 
+
 		$edit = false;
+		$data = array();
+		$aux = array();
 		foreach ($new_data as $key => $value) {
 			if(array_key_exists($key, $supported_data)){
+				if($create){
+					$aux[$key] = '';
+				}
 
 				$value = utf8_decode($value);
 
@@ -163,14 +169,31 @@ class User extends Object {
 					$value = $this->encrypt_passwd($value);
 				}
 
-				$supported_data[$key] = $value;
+				$data[$key] = $value;
 				$edit = true;
 			}
 		}
 
-		if($edit){
-			$query = $this->_fdb->iupdate('users')->set($supported_data)->where('idUser', $this->id);
-			$query = $this->_fdb->insertInto('users')->values($supported_data);
+		if($create){
+			foreach ($supported_data as $key => $value) {
+				if($value === true && !array_key_exists($key, $aux)){
+					$edit = false;
+				}
+			}
+		}
+
+		if(!$edit){
+			return false;
+		}
+
+		return $data;
+	}
+
+	public function edit(array $new_data){
+		$data = $this->genericEdit($new_data);
+
+		if($data){
+			$query = $this->_fdb->update('users')->set($data)->where('idUser', $this->id);
 			return $query->execute();
 		}
 
@@ -178,27 +201,10 @@ class User extends Object {
 	}
 
 	public function create(array $new_data){
+		$data = $this->genericEdit($new_data, true);
 
-		//If the received array has a parameter not listed in this array, it will be ignored.
-		$supported_data = $this->supported_keys();
-
-		$create = false;
-		foreach ($new_data as $key => $value) {
-			if(array_key_exists($key, $supported_data)){
-
-				$value = utf8_decode($value);
-
-				if($key == 'password'){
-					$value = $this->encrypt_passwd($value);
-				}
-
-				$supported_data[$key] = $value;
-				$create = true;
-			}
-		}
-
-		if($create){
-			$query = $this->_fdb->insertInto('users')->values($supported_data);
+		if($data){
+			$query = $this->_fdb->insertInto('users')->values($data);
 			return $query->execute();
 		}
 
