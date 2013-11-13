@@ -11,48 +11,65 @@ class Member extends User {
 	 * @return bool           true if the user is correct
 	 */
 	private function exists($username, $password){
-		$query = $this->_fdb->from('users')->select(null)->select('password')->where('username = ?', $username);
+		$query = $this->_fdb->from('users')->select(null)->select('idUser AS id, password')->where('username = ?', $username);
 		$data = $query->fetch();
 		if(count($data) == 0){
 			return false;
 		}
 
+		$id = $data['id'];
+		$this->id = $id;
+		
 		$hash = $data['password'];
 		$verif2 = $this->verify_password($password, $hash);
 
 		return $verif2;
 	}
+
+	private function create_key_pass(){
+
+	}
+
+	private function register_login(){
+
+	}
+
+	private function calculate_times($plus = 1){
+		$time = array();
+		$time['auth'] = time() + (($GLOBALS['auth_time'] / 1000) * $plus);
+		$time['pass'] = time() + (($GLOBALS['pass_time'] / 1000) * $plus);
+
+		return $time;
+	}
 	
 	public function login($username, $password){
 
 		if($this->exists($username, $password)){
-			$time = time() + ($GLOBALS['auth_time'] / 1000);
-			$passtime = time() + ($GLOBALS['pass_time'] / 1000);
+			$t = $this->calculate_times();
 
 			foreach ($GLOBALS['cookie_domains'] as $domain) {
 				//Set the identification cookie
-				setcookie($GLOBALS['auth_cookie'], $this->id, $time, "/", $domain, $GLOBALS['secure_cookie']);
-				setcookie($GLOBALS['auth_cookie'], $this->id, $time, "/", "", $GLOBALS['secure_cookie']);
+				setcookie($GLOBALS['auth_cookie'], $this->id, $t['auth'], "/", $domain, $GLOBALS['secure_cookie']);
+				setcookie($GLOBALS['auth_cookie'], $this->id, $t['auth'], "/", "", $GLOBALS['secure_cookie']);
 
 				//Set the keypass cookie
-				setcookie($GLOBALS['pass_cookie'], "keypass", $passtime, "/", $domain, $GLOBALS['secure_cookie']);
-				setcookie($GLOBALS['pass_cookie'], "keypass", $passtime, "/", "", $GLOBALS['secure_cookie']);
+				setcookie($GLOBALS['pass_cookie'], "keypass", $t['pass'], "/", $domain, $GLOBALS['secure_cookie']);
+				setcookie($GLOBALS['pass_cookie'], "keypass", $t['pass'], "/", "", $GLOBALS['secure_cookie']);
 			}
 		}
 	}
 
 	public function logout(){
-		$time = time() - $GLOBALS['auth_time'];
-		$passtime = time() - $GLOBALS['pass_time'];
+		$t = $this->calculate_times(-1);
 
 		foreach ($GLOBALS['cookie_domains'] as $domain) {
 			//Set the identification cookie
-			setcookie($GLOBALS['auth_cookie'], "", $time, "/", $domain, $GLOBALS['secure_cookie']);
-			setcookie($GLOBALS['auth_cookie'], "", $time, "/", "", $GLOBALS['secure_cookie']);	
+			setcookie($GLOBALS['auth_cookie'], "", $t['auth'], "/", $domain, $GLOBALS['secure_cookie']);
+			setcookie($GLOBALS['auth_cookie'], "", $t['auth'], "/", "", $GLOBALS['secure_cookie']);	
 
 			//Set the keypass cookie
-			setcookie($GLOBALS['pass_cookie'], "", $passtime, "/", $domain, $GLOBALS['secure_cookie']);
-			setcookie($GLOBALS['pass_cookie'], "", $passtime, "/", "", $GLOBALS['secure_cookie']);
+			setcookie($GLOBALS['pass_cookie'], "", $t['pass'], "/", $domain, $GLOBALS['secure_cookie']);
+			setcookie($GLOBALS['pass_cookie'], "", $t['pass'], "/", "", $GLOBALS['secure_cookie']);
 		}
 	}
 
