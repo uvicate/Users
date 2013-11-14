@@ -47,7 +47,7 @@ class Member extends User {
 	private function validate_key_pass($table, $k, $id = null, $complete = false){
 		$where = array('keypass' => $k);
 		if($id != null){
-			$where['idUser'] => $id;
+			$where['idUser'] = $id;
 		}
 
 		$query = $this->_fdb->from($table)->where($where);
@@ -115,7 +115,7 @@ class Member extends User {
 	}
 
 	public function verify_credentials($id, $keypass){
-		$data = validate_key_pass('login', $keypass, $idl, true);
+		$data = $this->validate_key_pass('login', $keypass, $id, true);
 		if($data){
 			if($data['active'] == 1){
 				return true;
