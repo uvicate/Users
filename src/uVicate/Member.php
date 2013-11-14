@@ -155,7 +155,7 @@ class Member extends User {
 			$this->id = $data['id'];
 		}
 
-		$data = array():
+		$data = array();
 
 		$now = date('Y-m-d H:i:s');
 		$expiracy = strtotime($now) + 60 * 60 * 2; // Add two hours
