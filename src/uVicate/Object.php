@@ -60,11 +60,13 @@ abstract class Object {
 				array_walk_recursive($data, array ($xml, 'addChild'));
 				$response = $xml->asXML();
 			break;
-			default:
 			case 'application/json':
 			case 'application/x-javascript':
 				header('Content-type: application/json');
 				$response = json_encode($data);
+			break;
+			default:
+				$response = $data;
 			break;
 		}
 
