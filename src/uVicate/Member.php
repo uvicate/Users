@@ -32,7 +32,7 @@ class Member extends User {
 	 * @return string 60 character-long string
 	 */
 	private function create_key_pass($table = 'login'){
-		$abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#$/.,;@&%![]{}';
+		$abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_[]{}';
 		$k =  substr(str_shuffle($abc), 0, 60);
 
 		//Verifies that it doesn't exist
@@ -179,8 +179,9 @@ class Member extends User {
 
 	}
 
-	public function validate_forgotten($keypass){
-		$query = $this->_fdb->from('forgotten_password')->select(null)->select('keypass, expiracy, recovered')->where('keypass = ?', $keypass);
+	public function validate_forgotten($id, $keypass){
+		$where = array('keypass' => $keypass, 'idUser' => $id);
+		$query = $this->_fdb->from('forgotten_password')->select(null)->select('keypass, expiracy, recovered')->where($where);
 		$data = $query->fetch();
 		if(!$data){
 			return false;
@@ -194,7 +195,7 @@ class Member extends User {
 				return false;
 			}
 
-			if((int)$data['recovered'] === 0){
+			if((int)$data['recovered'] === 1){
 				return false;
 			}
 

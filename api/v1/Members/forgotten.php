@@ -13,11 +13,15 @@ $success = false;
 $mem = '';
 switch($method){
 	case 'POST':
-		if(!array_key_exists('username', $_POST)){
+		if(!array_key_exists('username', $_GET)){
 			break;
 		}
 
-		$mem = $member->forgotten_password($_POST['username']);
+		$mem = $member->forgotten_password($_GET['username']);
+		$success = true;
+	break;
+	case 'GET':
+		$mem = $member->validate_forgotten($_GET['id'], $_GET['key']);
 		$success = true;
 	break;
 }
