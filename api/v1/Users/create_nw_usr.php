@@ -1,23 +1,20 @@
 <?php
-$root = __DIR__.'/../../';
+$root = __DIR__.'/../../../';
 $src = $root.'src/uVicate/';
-include_once $src.'Member.php';
+include_once $src.'User.php';
 
 use uVicate;
 
-$member = new \uVicate\Member;
+$user = new \uVicate\User;
 
 $method = $_SERVER['REQUEST_METHOD'];
-$success = false;
 
-$response;
+$success = false;
+$usr;
+
 switch($method){
 	case 'POST':
-		$response = $member->login($_POST['username'], $_POST['password']);
-		$success = true;
-	break;
-	case 'DELETE':
-		$member->logout();
+		$usr = $user->create($_POST);
 		$success = true;
 	break;
 	default:
@@ -26,8 +23,9 @@ switch($method){
 
 if($success === false){
 	header("HTTP/1.0 404 Not Found", TRUE, 404);
+	//$usr = "<p>Sorry, this method is not available, please read the manuals of this API</p>";
 }
 
-echo $response;
+echo $usr;
 
 ?>
