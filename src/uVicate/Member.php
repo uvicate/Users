@@ -36,12 +36,30 @@ class Member extends User {
 		$k =  substr(str_shuffle($abc), 0, 60);
 
 		//Verifies that it doesn't exist
-		$query = $this->_fdb->from($table)->select(null)->select('keypass')->where('keypass = ?', $k);
-		$data = $query->fetch();
-		if(!$data){
+		$v = $this->validate_key_pass($table, $k);
+		if(!$v){
 			return $k;
 		}else{
 			return $this->create_key_pass();
+		}
+	}
+
+	private function validate_key_pass($table, $k, $id = null, $complete = false){
+		$where = array('keypass' => $k);
+		if($id != null){
+			$where['idUser'] => $id;
+		}
+
+		$query = $this->_fdb->from($table)->where($where);
+		$data = $query->fetch();
+		if(!$data){
+			return false;
+		}else{
+			if($complete){
+				return $data;
+			}else{
+				return true;
+			}
 		}
 	}
 
@@ -96,8 +114,15 @@ class Member extends User {
 		}
 	}
 
-	public function is_loged($keypass){
+	public function verify_credentials($id, $keypass){
+		$data = validate_key_pass('login', $keypass, $idl, true);
+		if($data){
+			if($data['active'] == 1){
+				return true;
+			}
+		}
 
+		return false;
 	}
 	
 	/**
@@ -166,6 +191,9 @@ class Member extends User {
 
 		$key = $this->create_key_pass('forgotten_password');
 		$data['keypass'] = $key;
+
+		$url = $this->build_forgotten_url($key);
+		$this->send_forgotten_email($url);
 
 		$query = $this->_fdb->insertInto('forgotten_password')->values($data);
 		return $query->execute();

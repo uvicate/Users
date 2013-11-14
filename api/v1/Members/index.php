@@ -12,6 +12,13 @@ $success = false;
 
 $response;
 switch($method){
+	case 'GET':
+		$key = $_COOKIE[$GLOBALS['auth_cookie']];
+		$id = $_COOKIE[$GLOBALS['pass_cookie']];
+
+		$response = $member->verify_credentials($id, $keypass);
+		$success = true;
+	break;
 	case 'POST':
 		$response = $member->login($_POST['username'], $_POST['password']);
 		$success = true;
