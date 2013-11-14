@@ -28,3 +28,16 @@ CREATE TABLE IF NOT EXISTS `login` (
   UNIQUE KEY `keypass` (`keypass`),
   CONSTRAINT `login_idUser` FOREIGN KEY (`idUser`) REFERENCES `users` (`idUser`) ON DELETE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `forgotten_password` (
+  `idForgotten` bigint(20) NOT NULL AUTO_INCREMENT,
+  `idUser` bigint(20) NOT NULL,
+  `date` datetime NOT NULL,
+  `expiracy` datetime NOT NULL,
+  `keypass` varchar(255) NOT NULL,
+  `recovered` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`idForgotten`),
+  KEY `idUser` (`idUser`),
+  UNIQUE KEY `keypass` (`keypass`),
+  CONSTRAINT `forgottern_password_idUser` FOREIGN KEY (`idUser`) REFERENCES `users` (`idUser`) ON DELETE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
