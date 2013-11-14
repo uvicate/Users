@@ -203,11 +203,10 @@ class Member extends User {
 		}
 	}
 
-	public function complete_forgotten($keypass){
-		$query = $this->_fdb->from('forgotten_password')->select(null)->select('keypass, expiracy, recovered')->where('keypass = ?', $keypass);
-		$data = $query->fetch();
+	public function complete_forgotten($id, $keypass){
+		$validate = $this->validate_forgotten($id, $keypass);
 
-		if($data){
+		if($validate){
 			$query = $this->_fdb->update('forgotten_password')->set(array('recovered' => 1))->where('keypass', $keypass);
 			return $query->execute();
 		}
