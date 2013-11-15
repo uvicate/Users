@@ -3,7 +3,7 @@
 RewriteEngine on
 RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type}]
 
-RewriteRule ^()$ index.php [QSA,L]
+
 RewriteRule ^(.+)/(forgotten)$ forgotten.php?username=$1 [QSA,L]
 RewriteRule ^([0-9]+)/(forgotten/)(.+)$ forgotten.php?id=$1&key=$3 [QSA,L]
 #RewriteRule ^([^/].+)/logout$ force_exit.php?email=$1 [QSA,L]

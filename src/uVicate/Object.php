@@ -66,7 +66,7 @@ abstract class Object {
 				$response = json_encode($data);
 			break;
 			default:
-				$response = $data;
+				$response = json_encode($data);
 			break;
 		}
 

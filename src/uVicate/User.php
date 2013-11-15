@@ -57,6 +57,8 @@ class User extends Object {
 	private function fetchGeneric($query, $params = null){
 		$params = ($params == null) ? array('all') : $params;
 		$data = $query->fetch();
+		$this->newData($data);
+
 		$d = $this->fetchPrivateData($data, $params);
 
 		$this->newData($d);
@@ -93,14 +95,14 @@ class User extends Object {
 	}
 
 	private function fetch_basic(){
-		$query = $this->_fdb->from('users')->select(null)->select('username, name, lastname');
+		$query = $this->_fdb->from('users')->select(null)->select('username, name, lastname')->where('idUser = ?', $this->id);
 		$data = $query->fetch();
 
 		return $data;
 	}
 
 	private function fetch_name(){
-		$query = $this->_fdb->from('users')->select(null)->select('name, name2');
+		$query = $this->_fdb->from('users')->select(null)->select('name, name2')->where('idUser = ?', $this->id);
 		$data = $query->fetch();
 
 		$name = '';
@@ -113,7 +115,7 @@ class User extends Object {
 	}
 
 	private function fetch_fullname(){
-		$query = $this->_fdb->from('users')->select(null)->select('lastname, lastname2');
+		$query = $this->_fdb->from('users')->select(null)->select('lastname, lastname2')->where('idUser = ?', $this->id);
 		$data = $query->fetch();
 
 		$name = '';

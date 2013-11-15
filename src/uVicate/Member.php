@@ -116,13 +116,14 @@ class Member extends User {
 
 	public function verify_credentials($id, $keypass){
 		$data = $this->validate_key_pass('login', $keypass, $id, true);
+		$r =  array('success' => false);
 		if($data){
-			if($data['active'] == 1){
-				return true;
+			if((int)$data['active'] == 1){
+				$r = array('success' => true);
 			}
 		}
 
-		return false;
+		return $this->handleResponse($r);
 	}
 	
 	/**
@@ -133,13 +134,20 @@ class Member extends User {
 	 */
 	public function login($username, $password){
 
+		$r = array('success' => false);
+
 		if($this->exists($username, $password)){
 			$t = $this->calculate_times();
 			$k = $this->create_key_pass();
 			$this->register_cookies($k, $t);
 
-			return $this->register_login($t, $k);
+			$q = $this->register_login($t, $k);
+			if($q){
+				$r = array('success' => true);
+			}
 		}
+
+		return $this->handleResponse($r);
 	}
 
 	/**

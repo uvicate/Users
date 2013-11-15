@@ -13,8 +13,8 @@ $success = false;
 $response;
 switch($method){
 	case 'GET':
-		$key = $_COOKIE[$GLOBALS['auth_cookie']];
-		$id = $_COOKIE[$GLOBALS['pass_cookie']];
+		$id = $_COOKIE[$GLOBALS['auth_cookie']];
+		$key = $_COOKIE[$GLOBALS['pass_cookie']];
 
 		$response = $member->verify_credentials($id, $key);
 		$success = true;
