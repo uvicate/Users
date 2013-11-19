@@ -34,6 +34,7 @@ switch($method){
 
 				$id = $_GET[$key];
 				$usr = $user->getby_id($id, $param);
+				$usr = $user->handleResponse($usr);
 
 				$success = true;
 				break;
@@ -56,6 +57,8 @@ switch($method){
 		$arr = array('id' => $id);
 		$user = new \uVicate\User($arr);
 		$usr = $user->delete();
+
+		$success = true;
 	break;
 	default:
 	break;

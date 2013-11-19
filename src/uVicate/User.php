@@ -62,7 +62,6 @@ class User extends Object {
 		$d = $this->fetchPrivateData($data, $params);
 
 		$this->newData($d);
-		$d = $this->handleResponse($d);
 
 		return $d;
 	}
@@ -95,7 +94,7 @@ class User extends Object {
 	}
 
 	private function fetch_basic(){
-		$query = $this->_fdb->from('users')->select(null)->select('username, name, lastname')->where('idUser = ?', $this->id);
+		$query = $this->_fdb->from('users')->select(null)->select('email, username, name, lastname')->where('idUser = ?', $this->id);
 		$data = $query->fetch();
 
 		return $data;

@@ -47,7 +47,7 @@ abstract class Object {
 		return $p;
 	}
 
-	protected function handleResponse($data){
+	public function handleResponse($data){
 		$content = $_SERVER['HTTP_CONTENT_TYPE'];
 
 		$response;

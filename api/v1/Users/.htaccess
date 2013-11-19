@@ -3,7 +3,11 @@
 RewriteEngine on
 RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type}]
 
+#User parameters
 RewriteRule ^([0-9]+)$ user.php?id=$1 [QSA,L]
 RewriteRule ^([0-9]+)/([a-z]+)$ user.php?$2=$1 [QSA,L]
 
-RewriteRule ^(create)$ create_nw_usr.php [QSA,L]
+RewriteRule ^(create)([/]?)$ create_nw_usr.php [QSA,L]
+
+#Users parameters
+RewriteRule ^([a-z]+)$ index.php?$1=1 [QSA,L]
