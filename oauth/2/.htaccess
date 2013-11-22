@@ -1,0 +1,7 @@
+#ErrorDocument 404 /mix/index.php
+
+RewriteEngine on
+RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type}]
+
+
+RewriteRule ^(login)$ login.php [QSA,L]

@@ -212,7 +212,7 @@ class Member extends User {
 	}
 
 	private function send_forgotten_email($url){
-
+		
 	}
 
 	public function validate_forgotten($id, $keypass){

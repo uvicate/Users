@@ -3,20 +3,63 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "beade1c146ba7fa3a5feaa56b35110b7",
+    "hash": "d703d32b0baa5da784d5a2afe7038dd5",
     "packages": [
+        {
+            "name": "bshaffer/oauth2-server-php",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bshaffer/oauth2-server-php.git",
+                "reference": "75739ef90b4c1b05404d36cb3db167e9e6074757"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bshaffer/oauth2-server-php/zipball/75739ef90b4c1b05404d36cb3db167e9e6074757",
+                "reference": "75739ef90b4c1b05404d36cb3db167e9e6074757",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "OAuth2": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Shaffer",
+                    "email": "bshafs@gmail.com",
+                    "homepage": "http://brentertainment.com"
+                }
+            ],
+            "description": "OAuth2 Server for PHP",
+            "homepage": "http://github.com/bshaffer/oauth2-server-php",
+            "keywords": [
+                "auth",
+                "oauth",
+                "oauth2"
+            ],
+            "time": "2013-10-31 23:41:10"
+        },
         {
             "name": "lichtner/fluentpdo",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lichtner/fluentpdo.git",
-                "reference": "4776f6597304e0b0feab562f0cc3650e443c9c5e"
+                "reference": "172d48a31a2a638a489b4fd42dfec63ef54d9f95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lichtner/fluentpdo/zipball/4776f6597304e0b0feab562f0cc3650e443c9c5e",
-                "reference": "4776f6597304e0b0feab562f0cc3650e443c9c5e",
+                "url": "https://api.github.com/repos/lichtner/fluentpdo/zipball/172d48a31a2a638a489b4fd42dfec63ef54d9f95",
+                "reference": "172d48a31a2a638a489b4fd42dfec63ef54d9f95",
                 "shasum": ""
             },
             "type": "library",
@@ -43,7 +86,7 @@
                 "dbal",
                 "pdo"
             ],
-            "time": "2013-08-17 18:41:32"
+            "time": "2013-11-14 21:25:27"
         }
     ],
     "packages-dev": [
@@ -54,7 +97,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "lichtner/fluentpdo": 20
+        "lichtner/fluentpdo": 20,
+        "bshaffer/oauth2-server-php": 20
     },
     "platform": {
         "php": ">=5.3.0"
