@@ -4,6 +4,11 @@ $src = $root.'src/uVicate/';
 include_once $src.'User.php';
 include_once $root.'oauth/2/server.php';
 
+$method = $_SERVER['REQUEST_METHOD'];
+if($method == 'PUT'){
+	parse_str(file_get_contents("php://input"), $PUT);
+}
+
 // Handle a request for an OAuth2.0 Access Token and send the response to the client
 if (!$server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
 	$server->getResponse()->send();
@@ -15,8 +20,6 @@ if (!$server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
 use uVicate;
 
 $user = new \uVicate\User;
-
-$method = $_SERVER['REQUEST_METHOD'];
 
 $success = false;
 
@@ -55,7 +58,6 @@ switch($method){
 		//---------------------
 		$id = $_GET['id'];
 		$arr = array('id' => $id);
-		parse_str(file_get_contents("php://input"), $PUT);
 		$user = new \uVicate\User($arr);
 		$usr = $user->edit($PUT);
 
