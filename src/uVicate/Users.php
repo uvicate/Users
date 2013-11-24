@@ -21,7 +21,7 @@ class Users extends Object {
 	}
 
 	protected function get_ids(){
-		$query = $this->_fdb->from('users')->select(null)->select('idUser AS id');
+		$query = $this->_fdb->from('users')->select(null)->select('user_id AS id');
 
 		return $query;
 	}
