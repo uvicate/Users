@@ -11,7 +11,7 @@ class Member extends User {
 	 * @return bool           true if the user is correct
 	 */
 	private function exists($username, $password){
-		$query = $this->_fdb->from('users')->select(null)->select('idUser AS id, password')->where('username = ?', $username);
+		$query = $this->_fdb->from('users')->select(null)->select('user_id AS id, password')->where('username = ?', $username);
 		$data = $query->fetch();
 		if(!$data){
 			return false;
@@ -47,7 +47,7 @@ class Member extends User {
 	private function validate_key_pass($table, $k, $id = null, $complete = false){
 		$where = array('keypass' => $k);
 		if($id != null){
-			$where['idUser'] = $id;
+			$where['user_id'] = $id;
 		}
 
 		$query = $this->_fdb->from($table)->where($where);
@@ -72,7 +72,7 @@ class Member extends User {
 	private function register_login($time, $keypass){
 		$now = date('Y-m-d H:i:s');
 		$data = array(
-			'idUser' => $this->id,
+			'user_id' => $this->id,
 			'date' => $now,
 			'expiracy' => date('Y-m-d H:i:s', $time['pass']),
 			'keypass' => $keypass,
@@ -179,7 +179,7 @@ class Member extends User {
 	public function forgotten_password($username){
 		//Get user id
 		if(!$this->id){
-			$query = $this->_fdb->from('users')->select(null)->select('idUser AS id')->where('username = ?', $username);
+			$query = $this->_fdb->from('users')->select(null)->select('user_id AS id')->where('username = ?', $username);
 			$data = $query->fetch();
 			if(!$data){
 				return false;
@@ -195,7 +195,7 @@ class Member extends User {
 		$expiracy = date('Y-m-d H:i:s', $expiracy);
 		$data['date'] = $now;
 		$data['expiracy'] = $expiracy;
-		$data['idUser'] = $this->id;
+		$data['user_id'] = $this->id;
 
 		$key = $this->create_key_pass('forgotten_password');
 		$data['keypass'] = $key;
@@ -216,7 +216,7 @@ class Member extends User {
 	}
 
 	public function validate_forgotten($id, $keypass){
-		$where = array('keypass' => $keypass, 'idUser' => $id);
+		$where = array('keypass' => $keypass, 'user_id' => $id);
 		$query = $this->_fdb->from('forgotten_password')->select(null)->select('keypass, expiracy, recovered')->where($where);
 		$data = $query->fetch();
 		if(!$data){

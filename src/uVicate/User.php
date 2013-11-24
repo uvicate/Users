@@ -30,19 +30,19 @@ class User extends Object {
 	 * @return fluentPDO Returns the query before where
 	 */
 	private function genericSearch(){
-		$query = $this->_fdb->from('users')->select(null)->select('idUser AS id');
+		$query = $this->_fdb->from('users')->select(null)->select('user_id AS id');
 		return $query;
 	}
 
 	/**
 	 * Using the "genericSearch" method it appends a "where clause" to search for an id
-	 * @param  int $id   idUser
+	 * @param  int $id   user_id
 	 * @param  array $data user parameters to get (all, basic, address, phones, emails)
 	 * @return array       user data obtained
 	 */
 	public function getby_id($id, $params = null){
 		$query = $this->genericSearch();
-		$query = $query->where('idUser = ?', $id);
+		$query = $query->where('user_id = ?', $id);
 		
 		return $this->fetchGeneric($query, $params);
 	}
@@ -94,14 +94,14 @@ class User extends Object {
 	}
 
 	private function fetch_basic(){
-		$query = $this->_fdb->from('users')->select(null)->select('email, username, name, lastname')->where('idUser = ?', $this->id);
+		$query = $this->_fdb->from('users')->select(null)->select('email, username, name, lastname')->where('user_id = ?', $this->id);
 		$data = $query->fetch();
 
 		return $data;
 	}
 
 	private function fetch_name(){
-		$query = $this->_fdb->from('users')->select(null)->select('name, name2')->where('idUser = ?', $this->id);
+		$query = $this->_fdb->from('users')->select(null)->select('name, name2')->where('user_id = ?', $this->id);
 		$data = $query->fetch();
 
 		$name = '';
@@ -114,7 +114,7 @@ class User extends Object {
 	}
 
 	private function fetch_fullname(){
-		$query = $this->_fdb->from('users')->select(null)->select('lastname, lastname2')->where('idUser = ?', $this->id);
+		$query = $this->_fdb->from('users')->select(null)->select('lastname, lastname2')->where('user_id = ?', $this->id);
 		$data = $query->fetch();
 
 		$name = '';
@@ -194,7 +194,7 @@ class User extends Object {
 		$data = $this->genericEdit($new_data);
 
 		if($data){
-			$query = $this->_fdb->update('users')->set($data)->where('idUser', $this->id);
+			$query = $this->_fdb->update('users')->set($data)->where('user_id', $this->id);
 			return $query->execute();
 		}
 
@@ -214,7 +214,7 @@ class User extends Object {
 
 	public function delete(){
 		if($this->id != ''){
-			$query = $this->_fdb->deleteFrom('users')->where('idUser', $this->id);
+			$query = $this->_fdb->deleteFrom('users')->where('user_id', $this->id);
 			return $query->execute();
 		}
 	}
