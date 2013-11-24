@@ -1,6 +1,8 @@
 <?php
 $root = __DIR__.'/../../../';
 $src = $root.'src/uVicate/';
+$oauth = $root.'oauth/';
+
 // include our OAuth2 Server object
 require_once __DIR__.'/server.php';
 include_once $src.'Member.php';
@@ -20,17 +22,8 @@ if (array_key_exists('password', $_POST)) {
 }
 
 if(!$accesseduser['success']){
-	?>
-
-	<form method="post">
-		<label>Usuario</label>
-		<input type="text" name="username" required />
-		<label>Contraseña</label>
-		<input type="password" name="password" required />
-
-		<input type="submit" />
-	</form>
-	<?php
+	$dom = file_get_contents(__DIR__.'/../authorize/login.html');
+	echo $dom;
 
 	exit();
 }
@@ -63,6 +56,7 @@ if ($is_authorized) {
   
   header( 'Location: http://'.$code ) ;
 }
+
 $response->send();
 
 ?>
