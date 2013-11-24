@@ -2,7 +2,7 @@
 $r = __DIR__.'/../../';
 include_once $r.'configure.php';
 
-$dsn      = $GLOBALS['oauth2_db_oauth'];
+$dsn      = $GLOBALS['oauth2_db'];
 $username = $GLOBALS['oauth2_db_user'];
 $password = $GLOBALS['oauth2_db_password'];
 
