@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="OAuth Authorization" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>OAuth Authorization</title>
+		<link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<style>
+			body {
+				margin-top: 60px;
+				background-color: #fafafa;
+			}
+
+			#signin-form {
+				padding: 7px 15px;
+				background-color: white;
+				border-radius: 5px;
+				box-shadow: 0 2px 6px -4px #333;
+			}
+
+			#oauth2 {
+				width: 85px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-sm-offset-4">
+					<h1>Authorize the application</h1>
+					<h3><strong id="client"></strong> wants permission for:</h3>
+					<ul id="scopes"></ul>
+
+					<form id="authorize-form" role="form" method="post">
+						<input type="submit" name="authorized" value="Cancel" class="btn btn-danger btn-sm" />
+						<input type="submit" name="authorized" value="Authorize" class="btn btn-primary btn-lg" />
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div id="scopes_receiver" data-scopes="#scopes#"></div>
+		<div id="client_receiver" data-client="#client#"></div>
+	</body>
+	<script src="../authorize/js/authorize.js"></script>
+</html>

@@ -1,0 +1,10 @@
+{
+	"modules": {
+		"login": {},
+		"forgotten": {},
+		"change_password": {},
+		"error": {}
+	},
+	"modules_path": "modules/",
+	"REST": "#--url--#"
+}

@@ -1,0 +1,17 @@
+<content>
+	<dom>
+		<title>Change password</title>
+		<description>Type your new password for accessing the system.</description>
+		
+		<password>Password</password>
+		<password_2>Type it again</password_2>
+
+		<change_button>Change password </change_button>
+		
+		<title-success>The password has been changed! </title-success>
+		<description-success>Now you can access to the system with your new password.</description-success>
+
+		<title-danger>An error has occurred.</title-danger>
+		<description-danger>Maybe the password has already been changed, please verify again.</description-danger>
+	</dom>
+</content>

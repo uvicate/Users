@@ -1,0 +1,9 @@
+<content>
+	<dom>
+		<signin>Iniciar sesión</signin>
+		<username>Usuario</username>
+		<password>Contraseña</password>
+		<signin-button>Iniciar sesión </signin-button>
+		<cant-login>No puede iniciar sesión?</cant-login>
+	</dom>
+</content>

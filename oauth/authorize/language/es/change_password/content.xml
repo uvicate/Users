@@ -1,0 +1,17 @@
+<content>
+	<dom>
+		<title>Cambio de contraseña</title>
+		<description>Escriba su nueva contraseña de acceso al sistema.</description>
+		
+		<password>Contraseña</password>
+		<password_2>Vuelva a escribirla</password_2>
+
+		<change_button>Cambiar contraseña </change_button>
+
+		<title-success>Se ha cambiado la contraseña! </title-success>
+		<description-success>Ahora puede acceder al sistema con su nueva contraseña.</description-success>
+
+		<title-danger>Ha habido un problema. </title-danger>
+		<description-danger>Quizá la contraseña ya haya sido cambiada, verifica nuevamente.</description-danger>
+	</dom>
+</content>

@@ -1,0 +1,14 @@
+<content>
+	<dom>
+		<title>Forgotten password</title>
+		<description>If you can't remember your password, you can request a password change, the system automatically will send you an Email with further instructions.</description>
+		<email>Username</email>
+		<request>Request new password </request>
+
+		<title-success>A password change request has been sent to your email.</title-success>
+		<description-success> To reestablish, go to your inbox and check your email for more information.</description-success>
+
+		<title-error>The request has not been sent</title-error>
+		<description-error>, check that the username is correct.</description-error>
+	</dom>
+</content>

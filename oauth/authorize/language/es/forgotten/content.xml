@@ -1,0 +1,14 @@
+<content>
+	<dom>
+		<title>Contraseña olvidada</title>
+		<description>Si no puedes recordar tu contraseña, puedes solicitar un cambio de contraseña, el sistema enviará automaticamente un correo electrónico con más instrucciones.</description>
+		<email>Usuario</email>
+		<request>Solicitar nueva contraseña </request>
+
+		<title-success>Se ha enviado una solicitud de cambio de contraseña a tu correo electrónico.</title-success>
+		<description-success> Para reestablecerla, accede a tu bandeja de entrada y revisa tu correo para más información.</description-success>
+
+		<title-error>No se ha enviado la solicitud</title-error>
+		<description-error>, revisa que el usuario sea correcto.</description-error>
+	</dom>
+</content>

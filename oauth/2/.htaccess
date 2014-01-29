@@ -2,6 +2,7 @@
 
 RewriteEngine on
 RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type}]
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
 
-RewriteRule ^(login)$ login.php [QSA,L]
+RewriteRule ^(login)([/]?)$ login.php [QSA,L]
