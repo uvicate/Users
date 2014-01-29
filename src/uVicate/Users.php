@@ -8,12 +8,14 @@ class Users extends Object {
 	public function __construct($data = null){
 		parent::__construct();
 
-		$this->newData($data);
+		if($data != null){
+			$this->newData($data);
+		}
 	}
 
 	protected function initdb(){
-		$this->_db = $GLOBALS['user_pdo'];
-		$this->_fdb = $GLOBALS['user_fpdo'];
+		$this->_db = $GLOBALS['oauth_pdo'];
+		$this->_fdb = $GLOBALS['oauth_fpdo'];
 	}
 
 	protected function get_valid_keys(){

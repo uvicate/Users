@@ -11,7 +11,9 @@ class User extends Object {
 	public function __construct($data = null){
 		parent::__construct();
 
-		$this->newData($data);
+		if($data != null){
+			$this->newData($data);
+		}
 	}
 
 	/**
@@ -21,8 +23,8 @@ class User extends Object {
 	 * @return null No response
 	 */
 	protected function initdb(){
-		$this->_db = $GLOBALS['user_pdo'];
-		$this->_fdb = $GLOBALS['user_fpdo'];
+		$this->_db = $GLOBALS['oauth_pdo'];
+		$this->_fdb = $GLOBALS['oauth_fpdo'];
 	}
 
 	/**
@@ -93,7 +95,7 @@ class User extends Object {
 		return $data;
 	}
 
-	private function fetch_basic(){
+	protected function fetch_basic(){
 		$query = $this->_fdb->from('users')->select(null)->select('email, username, name, lastname')->where('user_id = ?', $this->id);
 		$data = $query->fetch();
 

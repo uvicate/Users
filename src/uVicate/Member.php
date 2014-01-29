@@ -3,6 +3,13 @@ include_once __DIR__.'/Object.php';
 //include_once __DIR__.'/User.php';
 
 class Member extends User {
+	private $_url;
+
+	protected function initdb(){
+		parent::initdb();
+
+		$this->_url = $GLOBALS['url'];
+	}
 
 	/**
 	 * Does the user exists? this function will look for it in the DB
@@ -119,7 +126,7 @@ class Member extends User {
 		$r =  array('success' => false);
 		if($data){
 			if((int)$data['active'] == 1){
-				$r = array('success' => true);
+				$r = array('success' => true, 'user_id' => $id);
 			}
 		}
 
@@ -208,11 +215,29 @@ class Member extends User {
 	}
 
 	private function build_forgotten_url($key){
+		$url = $this->_url . 'oauth/authorize/forgotten_password.php?id=' . $this->id . '&key=' . $key;
 
+		return $url;
 	}
 
 	private function send_forgotten_email($url){
-		
+		$data = array(
+			'title' => 'Forgotten password request',
+			'description' => "A request has been made, if you didn't make this request, don't pay attention to this email.",
+			'url' => $url,
+			'here' => 'Here'
+			);
+
+		$dom = file_get_contents(__DIR__.'/../../oauth/authorize/forgotten_email.html');
+		foreach ($data as $key => $value) {
+			$dom = str_replace("#" . $key . "#", $value, $dom);
+		}
+
+		$user = $this->fetch_basic();
+
+		$headers  = 'MIME-Version: 1.0' . "\r\n";
+		$headers .= 'Content-type: text/html; charset=utf8' . "\r\n";
+		mail($user['email'], $data['title'], $dom, $headers);
 	}
 
 	public function validate_forgotten($id, $keypass){
@@ -243,8 +268,14 @@ class Member extends User {
 		$validate = $this->validate_forgotten($id, $keypass);
 
 		if($validate){
+			//Deletes al active keys
+			$query = $this->_fdb->update('login')->set(array('active' => 0))->where('user_id', $id);
+			$query->execute();
+
 			$query = $this->_fdb->update('forgotten_password')->set(array('recovered' => 1))->where('keypass', $keypass);
 			return $query->execute();
+		}else{
+			return false;
 		}
 	}
 
