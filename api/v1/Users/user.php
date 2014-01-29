@@ -1,23 +1,17 @@
 <?php
 $root = __DIR__.'/../../../';
 $src = $root.'src/uVicate/';
+$oauth = $root.'oauth/';
+
+include_once $oauth.'cors.php';
 include_once $src.'User.php';
-include_once $root.'oauth/2/server.php';
+include_once $oauth.'2/server.php';
+include_once $oauth.'2/verifier.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 if($method == 'PUT'){
 	parse_str(file_get_contents("php://input"), $PUT);
 }
-
-// Handle a request for an OAuth2.0 Access Token and send the response to the client
-if (!$server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
-	$server->getResponse()->send();
-	header("HTTP/1.0 401 Unauthorized", TRUE, 404);
-
-	die;
-}
-
-use uVicate;
 
 $user = new \uVicate\User;
 
@@ -33,6 +27,15 @@ switch($method){
 			'email' => '', 
 			'phone' => ''
 		);
+
+		$requiredScope = 'full_profile';
+		$response = $server->getResponse();
+		if (!$server->verifyResourceRequest($request, $response, $requiredScope)) {
+			$response = $server->getResponse();
+			$response->send();
+
+			die;
+		}
 
 		//Get all information
 		//---------------------

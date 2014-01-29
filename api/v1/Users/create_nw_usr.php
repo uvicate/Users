@@ -1,18 +1,12 @@
 <?php
 $root = __DIR__.'/../../../';
 $src = $root.'src/uVicate/';
+$oauth = $root.'oauth/';
+
+include_once $oauth.'cors.php';
 include_once $src.'User.php';
-include_once $root.'oauth/2/server.php';
-
-// Handle a request for an OAuth2.0 Access Token and send the response to the client
-if (!$server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
-	$server->getResponse()->send();
-	header("HTTP/1.0 401 Unauthorized", TRUE, 404);
-
-	die;
-}
-
-use uVicate;
+include_once $oauth.'2/server.php';
+include_once $oauth.'2/verifier.php';
 
 $user = new \uVicate\User;
 

@@ -2,6 +2,7 @@
 
 RewriteEngine on
 RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type}]
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
 #User parameters
 RewriteRule ^([0-9]+)$ user.php?id=$1 [QSA,L]

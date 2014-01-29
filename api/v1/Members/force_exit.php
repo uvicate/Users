@@ -1,10 +1,10 @@
 <?php
-
 $root = __DIR__.'/../../../';
 $src = $root.'src/uVicate/';
-include_once $src.'Member.php';
+$oauth = $root.'oauth/';
 
-use uVicate;
+include_once $oauth.'cors.php';
+include_once $src.'Member.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 $success = false;

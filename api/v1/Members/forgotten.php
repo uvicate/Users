@@ -1,13 +1,18 @@
 <?php
 $root = __DIR__.'/../../../';
 $src = $root.'src/uVicate/';
-include_once $src.'Member.php';
+$oauth = $root.'oauth/';
 
-use uVicate;
+include_once $oauth.'cors.php';
+include_once $src.'Member.php';
 
 $member = new \uVicate\Member;
 
 $method = $_SERVER['REQUEST_METHOD'];
+if($method == 'PUT'){
+	parse_str(file_get_contents("php://input"), $PUT);
+}
+
 $success = false;
 
 $mem = '';
@@ -22,7 +27,31 @@ switch($method){
 	break;
 	case 'GET':
 		$mem = $member->validate_forgotten($_GET['id'], $_GET['key']);
-		$success = true;
+
+		if(!$mem){
+		}else{
+			$success = true;
+		}
+	break;
+	case 'PUT':
+		//Update information
+		//---------------------
+		$id = $_GET['id'];
+		$key = $_GET['key'];
+
+		$arr = array('id' => $id);
+		$user = new \uVicate\User($arr);
+		$edit = array();
+		if(array_key_exists('password', $PUT)){
+			$validate = $member->complete_forgotten($id, $key);
+
+			if($validate !== false){
+				$edit['password'] = $PUT['password'];
+				$mem = $user->edit($edit);
+
+				$success = true;
+			}
+		}
 	break;
 }
 
