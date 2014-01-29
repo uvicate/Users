@@ -1,0 +1,8 @@
+{
+	"name": "Users",
+	"dependencies": {
+		"jQuery": "2.0.3",
+		"bootstrap": "v3.0.3",
+		"webapp": ""
+	}
+}
