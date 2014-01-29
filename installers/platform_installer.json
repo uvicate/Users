@@ -1,0 +1,9 @@
+{
+	"prefix_name": "users",
+	"database": {
+		"user": "root",
+		"pass": "mnkDazul}mysql"
+	},
+	"cookie_urls": ["users"],
+	"url": "http://users/"
+}

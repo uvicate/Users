@@ -1,0 +1,14 @@
+{
+	"organization": {
+		"commercial_name": "uVicate",
+		"real_name": "Soluciones uVicate S.A. De C.V."
+	},
+	"user": {
+		"username": "victorhqc",
+		"email": "victorhqc@gmail.com",
+		"name": "Victor",
+		"lastname": "Quiroz"
+	},
+	"organization_alias": "uvicate",
+	"desired_platforms": [""]
+}

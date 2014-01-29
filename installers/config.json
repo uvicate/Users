@@ -1,0 +1,20 @@
+{
+	"rest_url": "api/v1/",
+	"platforms": {
+		"oauth": {
+			"mandatory": true
+		},
+		"catalogues": {
+			"mandatory": true
+		},
+		"users": {
+			"mandatory": true
+			},
+		"production": {
+			"mandatory": false
+		},
+		"inventories": {
+			"mandatory": false
+		}
+	}
+}

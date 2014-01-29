@@ -1,0 +1,33 @@
+<?php
+$r = __DIR__.'/'; // root
+$vendor = $r.'vendor/';
+include_once $vendor.'autoload.php';
+
+#--databases--#
+
+foreach ($dbs as $key => $val) {
+	foreach ($val as $k => $v) {
+		$GLOBALS[$key . '_' . $k] = $v;
+	}
+
+	$pdo = new PDO($val['db'], $val['user'], $val['password']);
+	$pdo -> exec("SET CHARACTER SET utf8");
+
+	$fpdo = new FluentPDO( $pdo );
+
+	$GLOBALS[$key . '_pdo'] = $pdo;
+	$GLOBALS[$key . '_fpdo'] = $fpdo;
+}
+
+#Authetication cookies
+$GLOBALS['auth_cookie'] = "U"; //Cookie's name that will hold the iduser
+$GLOBALS['pass_cookie'] = "U_key"; //Cookie's name that will hold the encrypted keypass (not the password)
+$GLOBALS['auth_time'] = 1000 * 3600 * 24 * 365; //Time in milliseconds (default time is 365 days)
+$GLOBALS['pass_time'] = 1000 * 3600 * 24 * 28; //Time in milliseconds (default time is 28 days)
+
+$GLOBALS['cookie_domains'] = #--cookie_domains--#;
+$GLOBALS['secure_cookie'] = false;
+
+$GLOBALS['url'] = #--url--#;
+$GLOBALS['rest_url'] = $GLOBALS['url'] . #--rest_url--#;
+?>
