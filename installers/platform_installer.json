@@ -2,7 +2,7 @@
 	"prefix_name": "users",
 	"database": {
 		"user": "root",
-		"pass": "mnkDazul}mysql"
+		"pass": "password"
 	},
 	"cookie_urls": ["users"],
 	"url": "http://users/"
