@@ -4,17 +4,8 @@
 		"oauth": {
 			"mandatory": true
 		},
-		"catalogues": {
-			"mandatory": true
-		},
 		"users": {
 			"mandatory": true
-			},
-		"production": {
-			"mandatory": false
-		},
-		"inventories": {
-			"mandatory": false
-		}
+			}
 	}
 }
