@@ -1,10 +1,15 @@
 <?php namespace uVicate;
 include_once __DIR__.'/Object.php';
-//include_once __DIR__.'/User.php';
 
+/**
+ * The Member class handles the authentication process of an user, password, lost password, etc. It has nothing to do with the personal information.
+ */
 class Member extends User {
 	private $_url;
 
+	/**
+	 * Starts the database configuration
+	 */
 	protected function initdb(){
 		parent::initdb();
 
@@ -51,6 +56,14 @@ class Member extends User {
 		}
 	}
 
+	/**
+	 * For each login and for each lost password, a key_pass is created, in different tables of course. But the validation for is existance is the same for each case, so this function checks if the key_pass exists or not.
+	 * @param  string  $table    name of the table in which the key pass is stored
+	 * @param  string  $k        keypass to validate
+	 * @param  int  $id       user's id, in case the keypass is validated against a certain user
+	 * @param  boolean $complete if true, it will return the complete DB row
+	 * @return bool|array            The array consists in the row in which the keypass is stored within the DB | true if the keypass exists, false if it doesn't
+	 */
 	private function validate_key_pass($table, $k, $id = null, $complete = false){
 		$where = array('keypass' => $k);
 		if($id != null){
@@ -121,6 +134,12 @@ class Member extends User {
 		}
 	}
 
+	/**
+	 * Validates the login keypass of an user (created and stored in a cookie)
+	 * @param  int $id      User id
+	 * @param  string $keypass Key pass
+	 * @return array          success => false if false, success => true if true
+	 */
 	public function verify_credentials($id, $keypass){
 		$data = $this->validate_key_pass('login', $keypass, $id, true);
 		$r =  array('success' => false);
@@ -172,17 +191,29 @@ class Member extends User {
 	 * @return null No return
 	 */
 	public function force_logout(){
-		$this->deactivate_keypass(true);
+		$this->deactivate_keypass();
 	}
 
-	private function deactivate_keypass($force = false){
+	/**
+	 * Sets to inactive the current active deactivate_keypass
+	 * @return boolean         true if the keypass was deactivated
+	 */
+	private function deactivate_keypass(){
 		$key = $_COOKIE[$GLOBALS['pass_cookie']];
 		if($key != ''){
 			$query = $this->_fdb->update('login')->set(array('active' => 0))->where('keypass', $key);
-			return $query->execute();
+			$query->execute();
+			return true;
+		}else{
+			return false;
 		}
 	}
 
+	/**
+	 * This function will send an email to a user that forgot its password
+	 * @param  string $username username
+	 * @return boolean           true if the email was correctly sent
+	 */
 	public function forgotten_password($username){
 		//Get user id
 		if(!$this->id){
@@ -211,15 +242,26 @@ class Member extends User {
 		$this->send_forgotten_email($url);
 
 		$query = $this->_fdb->insertInto('forgotten_password')->values($data);
-		return $query->execute();
+		$query->execute();
+		return true;
 	}
 
+	/**
+	 * Creates the URL that the user will click in order to reestablish his or her password
+	 * @param  string $key keypass created to validate the operation
+	 * @return string      the created URL
+	 */
 	private function build_forgotten_url($key){
 		$url = $this->_url . 'oauth/authorize/forgotten_password.php?id=' . $this->id . '&key=' . $key;
 
 		return $url;
 	}
 
+	/**
+	 * Sends the email with the instructions to reset the password
+	 * @param  string $url URL created to reestablish the password
+	 * @return boolean      true if it is correct
+	 */
 	private function send_forgotten_email($url){
 		$data = array(
 			'title' => 'Forgotten password request',
@@ -238,8 +280,16 @@ class Member extends User {
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=utf8' . "\r\n";
 		mail($user['email'], $data['title'], $dom, $headers);
+
+		return true;
 	}
 
+	/**
+	 * Validates if the received keypass and user id are correct in order to reset the password
+	 * @param  int $id      User's id which made the petition to reset the current password
+	 * @param  string $keypass Keypass generated and sent to the user's email
+	 * @return boolean          true if is correct
+	 */
 	public function validate_forgotten($id, $keypass){
 		$where = array('keypass' => $keypass, 'user_id' => $id);
 		$query = $this->_fdb->from('forgotten_password')->select(null)->select('keypass, expiracy, recovered')->where($where);
@@ -264,6 +314,12 @@ class Member extends User {
 		}
 	}
 
+	/**
+	 * Resets the current password of an user, completes the operation of a forgotten password and deactivates all current active keypasses in order to ask again for each active session
+	 * @param  int $id      User id
+	 * @param  string $keypass Keypass
+	 * @return boolean          true if is correct
+	 */
 	public function complete_forgotten($id, $keypass){
 		$validate = $this->validate_forgotten($id, $keypass);
 
@@ -273,7 +329,8 @@ class Member extends User {
 			$query->execute();
 
 			$query = $this->_fdb->update('forgotten_password')->set(array('recovered' => 1))->where('keypass', $keypass);
-			return $query->execute();
+			$query->execute();
+			return true;
 		}else{
 			return false;
 		}
