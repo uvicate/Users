@@ -5,10 +5,17 @@ $oauth = $root.'oauth/';
 
 // include our OAuth2 Server object
 require_once __DIR__.'/server.php';
-
 $member = new \uVicate\Member;
-$id = $_COOKIE[$GLOBALS['auth_cookie']];
-$key = $_COOKIE[$GLOBALS['pass_cookie']];
+
+$id = null;
+if(array_key_exists($GLOBALS['auth_cookie'], $_COOKIE)){
+  $id = $_COOKIE[$GLOBALS['auth_cookie']];  
+}
+
+$key = null;
+if(array_key_exists($GLOBALS['pass_cookie'], $_COOKIE)){
+  $key = $_COOKIE[$GLOBALS['pass_cookie']];
+}
 
 $accesseduser = $member->verify_credentials($id, $key);
 $accesseduser = json_decode($accesseduser, true);

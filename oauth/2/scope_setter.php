@@ -1,5 +1,5 @@
 <?php
-$root = __DIR__.'/../../../';
+$root = __DIR__.'/../../';
 include_once $root.'oauth/2/server.php';
 
 $request = OAuth2\Request::createFromGlobals();

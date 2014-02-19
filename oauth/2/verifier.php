@@ -1,6 +1,6 @@
 <?php
 
-$root = __DIR__.'/../../../';
+$root = __DIR__.'/../../';
 $src = $root.'src/uVicate/';
 $oauth = $root.'oauth/';
 
